@@ -29,9 +29,7 @@
 
             text-shadow: 1px 1px 5px white;
         }
-        td input:hover {
-            color: rgba(255, 255, 255, 0);
-        }
+        
         td  {
             color: white;
         }
@@ -116,6 +114,14 @@
                 <td align="right">Color:</td>
                 <td><input name="color" type="color"></td>
             </tr>
+            <tr>
+                <td align="right">Codigo postal</td>
+                <td><input type="text" name="c_p" list="informaxion"></td>
+                <datalist id="informaxion">
+                    <option value="123456789" label="t2"></option>
+                    <option value="321654987" label="t1"></option>
+                </datalist>
+            </tr>
             
             
             
@@ -123,10 +129,11 @@
             
             
         </table>
+       
         <center>
             <br>
             <br>
-            <input type="submit" formnovalidate >
+            <input type="submit" formnovalidate  >
         </center>
         
 
