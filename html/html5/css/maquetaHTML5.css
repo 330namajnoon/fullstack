@@ -1,0 +1,60 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+#contenedor {
+    width: 1000px;
+    height: 1200px;
+    background-color: beige;
+    margin: .5em auto;
+    padding: 0.5em ;
+}
+#header {
+    height: 18%;
+    background-color: bisque;
+    border-radius: 1em;
+    border: 1em;
+    margin: 1em;
+
+}
+#nav {
+    height: 14%;
+    background-color: azure;
+    border-radius: 1em;
+    margin: 1em;
+    
+}
+#contenido {
+    height: 38%;
+    background-color: antiquewhite;
+    margin: 1em;
+}
+#section {
+    float: left;
+    width: 68%;
+    height: 90%;
+    margin: 1em;
+    border-radius: 1em;
+    background-color: aliceblue;
+}
+.article {
+    width: 95%;
+    margin: 1em;
+    height: 20%;
+    background-color: burlywood;
+    border-radius: 1em;
+}
+#aside {
+    display: inline-block;
+    width: 25%;
+    height: 90%;
+    margin: 1em;
+    border-radius: 1em;
+    background-color: rgb(160, 160, 160);
+}
+#footer {
+    height: 23% ;
+    background-color: blanchedalmond;
+    margin: 1em;
+    border-radius: 1em;
+}
