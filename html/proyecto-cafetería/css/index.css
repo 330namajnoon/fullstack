@@ -163,3 +163,55 @@
     background-color:#1F1815 ;
     border-radius: 4px;
 }
+
+.cards {
+    background: url(../images/vasodecafe.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 1280px;
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.cards svg {
+    margin: 0 auto;
+}
+.cards div {
+    margin: 0 auto;
+    width: 996px;
+    height: 232px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+.cards div div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 314px;
+    height: 230px;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    border: 1px solid #F7F5F3;
+}
+.cards img {
+    margin: 0 auto;
+    width: 64px;
+    height: 64px;
+}
+
+
+.cards2 {
+    display: flex;
+    flex-direction: column;
+    justify-content:space-evenly ;
+    width: 1280px;
+    height: 603px;
+    background-color: #acd4c2;
+}
+.cards2 svg {
+    margin: 0 auto;
+}
