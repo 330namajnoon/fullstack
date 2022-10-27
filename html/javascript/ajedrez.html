@@ -23,13 +23,13 @@
         }
         h3 {
             font-size: 60px;
-            color: rgb(196, 196, 196);
+           
             margin: 0 0 20px 20px;
         }
     </style>
 </head>
-<body>
-    <script>
+<body >
+    <script >
         let mohreha = ["&#9814", "&#9816", "&#9815", "&#9813", "&#9812", "&#9815", "&#9816", "&#9814", "&#9817", "&#9817", "&#9817", "&#9817", "&#9817", "&#9817", "&#9817", "&#9817", "&#9817", "&#9817", "&#9817", "&#9817", "&#9817", "&#9817", "&#9817", "&#9817", "&#9814", "&#9816", "&#9815", "&#9813", "&#9812", "&#9815", "&#9816", "&#9814"]
         let table = ``;
         let no = 1;
@@ -57,9 +57,15 @@
         let m_no = 0;
         for (let index = 0; index < trs.length; index++) {
 
-            if (index >= 0 && index <= 15 || index >= 48 && index <= 64) {
+            if (index >= 48 && index <= 64) {
                 
-                trs[index].innerHTML = `<h3 >${mohreha[m_no]}</h3>`;
+                trs[index].innerHTML = `<h3 style="color: red;">${mohreha[m_no]}</h3>`;
+               
+                m_no++;
+            }
+            if (index >= 0 && index <= 15) {
+                
+                trs[index].innerHTML = `<h3 style="color: green;">${mohreha[m_no]}</h3>`;
                
                 m_no++;
             }
