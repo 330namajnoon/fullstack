@@ -1,6 +1,6 @@
 package fundamentos;
 
-class Prueba{
+class Prueba_1{
 
 	public static void main(String arg[])
 {

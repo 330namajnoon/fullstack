@@ -3,18 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fundamentos;
+package ventanas;
+
+import fundamentos.*;
 
 /**
  *
  * @author tarde
  */
-public class Coche {
+public class Coche1 implements java.io.Serializable{
+    String matricula;
     String marca;
     String modelo;
     int motor;
 
-    public Coche(String marca, String modelo, int motor) {
+    public Coche1(String matricula,String marca, String modelo, int motor) {
+        this.matricula = matricula;
         this.marca = marca;
         this.modelo = modelo;
         this.motor = motor;

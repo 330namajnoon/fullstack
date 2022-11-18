@@ -2,21 +2,21 @@
 package fundamentos;
 
 
-public class Variables {
+public class Variables_1 {
     
     int numero; //de instancia
     static String nombre;// de clase
    
   public static void main(String[] args) {
      
-      Variables v = new Variables();
+      Variables_1 v = new Variables_1();
       v.numero = 5;
-      Variables.nombre = "Java es fácil";
+      Variables_1.nombre = "Java es fácil";
 
       float PI = 3.14F;// F ó f
       System.out.println(PI);
       System.out.println(v.numero);
-      System.out.println("Nombre: " + Variables.nombre);
+      System.out.println("Nombre: " + Variables_1.nombre);
       /*en función del almacenamiento. 
           Tipos primitivos de variables
           
