@@ -22,12 +22,19 @@ import javax.swing.table.DefaultTableModel;
  * @author tarde
  */
 public class CocheDatos extends javax.swing.JFrame {
+
     ArrayList<Coche1> coches;
+
     /**
      * Creates new form Tabla
      */
     public CocheDatos(ArrayList coches) {
         initComponents();
+        this.saveCoches(coches);
+    }
+    
+    void saveCoches(ArrayList coches) {
+        
         this.coches = coches;
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Matricula");
@@ -36,11 +43,25 @@ public class CocheDatos extends javax.swing.JFrame {
         model.addColumn("Motor");
         for (int i = 0; i < coches.size(); i++) {
             Coche1 c = (Coche1) coches.get(i);
-            model.addRow(new Object[] {c.matricula,c.marca,c.modelo,c.motor});
+            model.addRow(new Object[]{c.matricula, c.marca, c.modelo, c.motor});
         }
-        
+
         jTable1.setModel(model);
         
+    }
+    
+    void desearizar(ArrayList coches) {
+        FileOutputStream fos;
+        ObjectOutputStream oos;
+        try {
+            fos = new FileOutputStream("coches.dat");
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(coches);
+            
+        } catch (Exception e) {
+            System.out.println("No se puede crear el fichero");
+        }
+        saveCoches(coches);
     }
 
     /**
@@ -54,6 +75,7 @@ public class CocheDatos extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -70,25 +92,58 @@ public class CocheDatos extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jButton1.setText("BORRAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(156, 156, 156)
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(9, 9, 9)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int r = jTable1.getSelectedRow();
+        ArrayList c = new ArrayList();
+        if (r > -1) {
+            
+            for (int i = 0; i < coches.size(); i++) {
+                if (i != r) {
+                    Coche1 cc = (Coche1) coches.get(i);
+                    c.add(cc);
+                }
+            }
+            this.desearizar(c);
+         
+        }else {
+            JOptionPane.showMessageDialog(this, "Elige una coche!!");
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -121,12 +176,13 @@ public class CocheDatos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CocheDatos().setVisible(true);
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
