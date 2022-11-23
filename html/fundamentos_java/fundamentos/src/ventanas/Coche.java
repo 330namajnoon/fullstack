@@ -29,6 +29,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.*;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static ventanas.MenuBasedatos.con;
 
 /**
  *
@@ -36,6 +40,8 @@ import java.net.*;
  */
 public class Coche extends javax.swing.JFrame {
 
+    Connection con;
+    Statement st;
     ArrayList<Coche1> coches;
 
     URL url;
@@ -58,6 +64,7 @@ public class Coche extends javax.swing.JFrame {
 
         }
         try {
+
             ip = (ImageProducer) url.getContent();
             img = createImage(ip);
             this.setIconImage(img);
@@ -88,7 +95,7 @@ public class Coche extends javax.swing.JFrame {
         marcaT = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 255));
 
         guardar.setBackground(new java.awt.Color(255, 102, 102));
@@ -257,7 +264,7 @@ public class Coche extends javax.swing.JFrame {
     }//GEN-LAST:event_guardarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        FileOutputStream fos;
+        /*FileOutputStream fos;
         ObjectOutputStream oos;
         try {
             fos = new FileOutputStream("coches.dat");
@@ -266,6 +273,36 @@ public class Coche extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "ArrayList Guardado");
         } catch (Exception e) {
             System.out.println("No se puede crear el fichero");
+        }
+         */
+
+       
+        
+        try {
+            
+            for (int i = 0; i < coches.size(); i++) {
+                Coche1 c = (Coche1) coches.get(i);
+                String sql1 = "insert into coches values ('"+c.matricula+"','"+c.marca+"','"+c.modelo+"',"+c.motor+")";
+                Class.forName("com.mysql.jdbc.Driver");
+                con = DriverManager.getConnection("jdbc:mysql://localhost/almacen", "root", "");
+                System.out.println(con);
+                st = con.createStatement();
+                System.out.println("ssss");
+                int n = st.executeUpdate(sql1);
+                System.out.println("" + n);
+                if (n == 1) {
+                    System.out.println("registro borrado");
+                } else if (n == -1) {
+                    System.out.println("registros borrados");
+                } else {
+                    System.out.println("registro no borrado");
+                }
+            }
+
+        } catch (SQLException sqe) {
+            System.out.println("Nooo!");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Coche.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -279,16 +316,16 @@ public class Coche extends javax.swing.JFrame {
         try {
             fis = new FileInputStream("coches.dat");
             ois = new ObjectInputStream(fis);
-            coches = (ArrayList)ois.readObject();
-            System.out.println((ArrayList)ois.readObject());
-            
+            coches = (ArrayList) ois.readObject();
+            System.out.println((ArrayList) ois.readObject());
+
         } catch (Exception e) {
             System.out.println("No se puede crear el fichero");
         }
         System.out.println(coches);
         new CocheDatos(coches).setVisible(true);
-        
-        
+
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

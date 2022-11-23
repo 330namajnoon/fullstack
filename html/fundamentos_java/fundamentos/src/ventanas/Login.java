@@ -48,7 +48,7 @@ public class Login extends javax.swing.JFrame {
         }
         
       
-        jPanel2.setVisible(false);
+        
         
     }
     
