@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import javax.swing.*;
 
 public class MenuBasedatos extends Frame implements ActionListener {
+
     static Connection con;
     static Statement st;
     MenuBar mbarra;
@@ -110,9 +111,9 @@ public class MenuBasedatos extends Frame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        
+
         if (e.getSource() == m11) {
-           
+
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 System.out.println("Driver cargado");
@@ -122,7 +123,6 @@ public class MenuBasedatos extends Frame implements ActionListener {
                 System.out.println("Driver no cargado" + cne.getMessage());
                 stado.setText("Estado : " + m11.getLabel() + " Driver no cargado");
             }
-            
 
         }
         if (e.getSource() == m12) {
@@ -136,7 +136,7 @@ public class MenuBasedatos extends Frame implements ActionListener {
                 System.out.println("no se puede conectar a almacen");
                 stado.setText("Estado : " + m12.getLabel() + " : no se puede conectar a almacen");
             }
-            
+
             stado.setText("Estado : " + m12.getLabel());
         }
         if (e.getSource() == m13) {
@@ -164,6 +164,18 @@ public class MenuBasedatos extends Frame implements ActionListener {
             stado.setText("Estado : " + m23.getLabel());
         }
         if (e.getSource() == m24) {
+            try {
+                //Class.forName("com.mysql.jdbc.Driver");
+                con = DriverManager.getConnection("jdbc:mysql://localhost/almacen", "root", "");
+                ResultSet rs = null;
+                String sql3 = "select * from coches";
+                st = con.createStatement();
+                rs = st.executeQuery(sql3);
+                while (rs.next()) {
+                    ta.append(rs.getString(1)+" : "+rs.getString(2)+" : "+ rs.getString(3)+" : "+ Integer.parseInt(rs.getString(4)));
+                }
+            } catch (SQLException sqe) {
+            }
             stado.setText("Estado : " + m24.getLabel());
         }
         if (e.getSource() == m31) {

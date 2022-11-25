@@ -32,6 +32,7 @@ import java.net.*;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.UIManager;
 import static ventanas.MenuBasedatos.con;
 
 /**
@@ -43,6 +44,7 @@ public class Coche extends javax.swing.JFrame {
     Connection con;
     Statement st;
     ArrayList<Coche1> coches;
+    ArrayList<Coche1> coches2;
 
     URL url;
     ImageProducer ip;
@@ -58,6 +60,7 @@ public class Coche extends javax.swing.JFrame {
     public Coche() {
         initComponents();
         coches = new ArrayList();
+        coches2 = new ArrayList();
         try {
             url = new URL("file:///C:\\fulstack sina\\projectofundomentos\\fullstack\\html\\fundamentos_java\\fundamentos\\src\\images\\coche.png");
         } catch (Exception e) {
@@ -70,6 +73,8 @@ public class Coche extends javax.swing.JFrame {
             this.setIconImage(img);
         } catch (Exception e) {
         }
+        
+       
 
     }
 
@@ -216,6 +221,19 @@ public class Coche extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+         try {
+            //Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/almacen", "root", "");
+            ResultSet rs = null;
+            String sql3 = "select * from coches";
+            st = con.createStatement();
+            rs = st.executeQuery(sql3);
+            while (rs.next()) {
+                coches.add(new Coche1(rs.getString(1), rs.getString(2), rs.getString(3), Integer.parseInt(rs.getString(4))));
+            }
+        } catch (SQLException sqe) {
+        }
+        
         String marca = "";
         String matricula = "";
         String model = "";
@@ -252,15 +270,16 @@ public class Coche extends javax.swing.JFrame {
             matriculaT.setText("");
         }
         if (t == true) {
-            System.out.println(coches);
+           
             Coche1 coche = new Coche1(matricula, marca, model, motor);
-            coches.add(coche);
+            coches2.add(coche);
             marcaT.setText("");
             modelT.setText("");
             motorT.setText("");
             matriculaT.setText("");
             JOptionPane.showMessageDialog(this, "Coche guardado");
         }
+        
     }//GEN-LAST:event_guardarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -276,34 +295,41 @@ public class Coche extends javax.swing.JFrame {
         }
          */
 
-       
-        
-        try {
-            
-            for (int i = 0; i < coches.size(); i++) {
-                Coche1 c = (Coche1) coches.get(i);
-                String sql1 = "insert into coches values ('"+c.matricula+"','"+c.marca+"','"+c.modelo+"',"+c.motor+")";
-                Class.forName("com.mysql.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost/almacen", "root", "");
-                System.out.println(con);
-                st = con.createStatement();
-                System.out.println("ssss");
-                int n = st.executeUpdate(sql1);
-                System.out.println("" + n);
-                if (n == 1) {
-                    System.out.println("registro borrado");
-                } else if (n == -1) {
-                    System.out.println("registros borrados");
-                } else {
-                    System.out.println("registro no borrado");
-                }
-            }
+        if (coches2.size() > 0) {
+            try {
 
-        } catch (SQLException sqe) {
-            System.out.println("Nooo!");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Coche.class.getName()).log(Level.SEVERE, null, ex);
+                for (int i = 0; i < coches2.size(); i++) {
+                    Coche1 c = (Coche1) coches2.get(i);
+                    String sql1 = "insert into coches values ('" + c.matricula + "','" + c.marca + "','" + c.modelo + "'," + c.motor + ")";
+                    Class.forName("com.mysql.jdbc.Driver");
+                    con = DriverManager.getConnection("jdbc:mysql://localhost/almacen", "root", "");
+                    System.out.println(con);
+                    st = con.createStatement();
+                    System.out.println("ssss");
+                    int n = st.executeUpdate(sql1);
+                    System.out.println("" + n);
+                    if (n == 1) {
+                        System.out.println("registro borrado");
+                    } else if (n == -1) {
+                        System.out.println("registros borrados");
+                    } else {
+                        System.out.println("registro no borrado");
+                    }
+                }
+
+            } catch (SQLException sqe) {
+                System.out.println("Nooo!");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Coche.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
+            JOptionPane.showMessageDialog(this, "ha serializado!");
+            coches2 = new ArrayList();
+        }else {
+            JOptionPane.showMessageDialog(this, "crea un coche");
         }
+
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void motorTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_motorTActionPerformed

@@ -15,7 +15,16 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.*;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
+import static ventanas.MenuBasedatos.con;
+import static ventanas.MenuBasedatos.st;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import static ventanas.MenuBasedatos.con;
 
 /**
  *
@@ -32,34 +41,66 @@ public class CocheDatos extends javax.swing.JFrame {
         initComponents();
         this.saveCoches(coches);
     }
-    
+
     void saveCoches(ArrayList coches) {
-        
+
         this.coches = coches;
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Matricula");
         model.addColumn("Marca");
         model.addColumn("Model");
         model.addColumn("Motor");
-        for (int i = 0; i < coches.size(); i++) {
-            Coche1 c = (Coche1) coches.get(i);
-            model.addRow(new Object[]{c.matricula, c.marca, c.modelo, c.motor});
+        try {
+           
+            //Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/almacen", "root", "");
+            ResultSet rs = null;
+            String sql3 = "select * from coches";
+            st = con.createStatement();
+            rs = st.executeQuery(sql3);
+            while (rs.next()) {
+                model.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)});
+
+            }
+        } catch (SQLException sqe) {
         }
 
         jTable1.setModel(model);
-        
+
     }
-    
-    void desearizar(ArrayList coches) {
-        FileOutputStream fos;
+
+    void desearizar(Coche1 c) {
+        /*FileOutputStream fos;
         ObjectOutputStream oos;
         try {
             fos = new FileOutputStream("coches.dat");
             oos = new ObjectOutputStream(fos);
             oos.writeObject(coches);
-            
+
         } catch (Exception e) {
             System.out.println("No se puede crear el fichero");
+        }
+        //saveCoches(coches);
+         */
+        try {
+            String sql1 = "delete from coches where matricula = '"+c.matricula+"'";
+            System.out.println(sql1);
+            con = DriverManager.getConnection("jdbc:mysql://localhost/almacen", "root", "");
+
+            st = con.createStatement();
+
+            int n = st.executeUpdate(sql1);
+
+            if (n == 1) {
+                System.out.println("registro borrado");
+            } else if (n == -1) {
+                System.out.println("registros borrados");
+            } else {
+                System.out.println("registro no borrado");
+            }
+
+        } catch (SQLException sqe) {
+            System.out.println("NooDo!");
         }
         saveCoches(coches);
     }
@@ -78,6 +119,14 @@ public class CocheDatos extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -127,23 +176,49 @@ public class CocheDatos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+           
+            //Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/almacen", "root", "");
+            ResultSet rs = null;
+            String sql3 = "select * from coches";
+            st = con.createStatement();
+            rs = st.executeQuery(sql3);
+            while (rs.next()) {
+                coches.add(new Coche1(rs.getString(1), rs.getString(2), rs.getString(3),Integer.parseInt(rs.getString(4))));
+
+            }
+        } catch (SQLException sqe) {
+        }
         int r = jTable1.getSelectedRow();
         ArrayList c = new ArrayList();
         if (r > -1) {
-            
+
             for (int i = 0; i < coches.size(); i++) {
                 if (i != r) {
                     Coche1 cc = (Coche1) coches.get(i);
                     c.add(cc);
+                }else {
+                    Coche1 cc = (Coche1) coches.get(i);
+                    this.desearizar(cc);
                 }
             }
-            this.desearizar(c);
-         
-        }else {
+            
+
+        } else {
             JOptionPane.showMessageDialog(this, "Elige una coche!!");
         }
+        coches = new ArrayList();
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+       
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
@@ -176,7 +251,7 @@ public class CocheDatos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
+
             }
         });
     }
