@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input {
+            width: 200px;
+            margin-top: 20px;
+
+        }
+    </style>
+</head>
+<body>
+    <a id="a" href="./chat.jsp"></a>
+    <input type="text" placeholder="Nombre de usuario :" id="t">
+    <input type="button" id="b" value="SIGIN">
+    <script>
+        if(sessionStorage.getItem("username")) {
+            document.getElementById("a").click();
+        }
+         function createElement(apend = document.createElement("div"),data = {name:"div",innerhtml:"",class:"",src:"",atribute: [{name:"",value:""}]}) {
+           let element = document.createElement(data.name);
+           data.innerhtml ? element.innerHTML = data.innerhtml : null;
+           data.class ? element.className = data.class : null;           
+           data.src ? element.src = data.src : null;           
+           data.atribute ? data.atribute.forEach(e => {
+                element.setAttribute(e.name,e.value);
+           }) : null;
+           apend ? apend.appendChild(element) : null;   
+           return element;    
+        }
+        document.getElementById("b").addEventListener("click",() => {
+            if(document.getElementById("t") !== "") {
+                sessionStorage.setItem("username",document.getElementById("t").value);
+                document.getElementById("a").click();
+            }
+        })
+    </script>
+</body>
+</html>

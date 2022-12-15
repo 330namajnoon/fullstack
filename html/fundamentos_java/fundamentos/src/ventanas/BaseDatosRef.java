@@ -50,16 +50,25 @@ public class BaseDatosRef {
          /**
          * ***************************************
          */
+         try {
+            con.setAutoCommit(false);
+            
+        } catch (SQLException ex) {
+            
+        }
+         
+         
          String sql4 = "insert into productos values (?,?,?,?)";
          PreparedStatement pst;
          try {
             pst =con.prepareStatement(sql4);
-            pst.setString(1, "000-Z");
+            pst.setString(1, "001-Z");
             pst.setString(2, "camera");
             pst.setInt(3, 44);
             pst.setFloat(4, 200.50F);
             pst.executeUpdate();
-            
+            con.commit();
+             System.out.println("nivel de aislamiento "+ con.getTransactionIsolation());
         } catch (SQLException sqe) {
             System.out.println("pst no");
         }

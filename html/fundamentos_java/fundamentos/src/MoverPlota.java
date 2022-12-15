@@ -86,11 +86,12 @@ public class MoverPlota extends Applet implements Runnable {
     }
 
     public void paint(Graphics g) {
+        
         try {
-            System.out.println(plotas.size());
+            g.drawString("Crea una pelota con un click Elige una pelota y puedes cambiar el tamaño con (F y D) y la velocidad con (S y A)", 0, 10);
             for (int i = 0; i < plotas.size(); i++) {
                 Plota p = (Plota) plotas.get(i);
-
+                g.setColor(Color.CYAN);
                 g.fillOval(p.x, p.y, p.wh, p.wh);
             }
         } catch (Exception e) {
@@ -147,22 +148,22 @@ public class MoverPlota extends Applet implements Runnable {
             case 1004:
 
                 if (plota.y >= 0) {
-                    plota.y = plota.y - plota.s;
+                    plota.y = plota.y - plota.ss;
                 }
                 break;
             case 1005:
                 if (plota.y + plota.wh <= this.size().height) {
-                    plota.y = plota.y + plota.s;
+                    plota.y = plota.y + plota.ss;
                 }
                 break;
             case 1006:
                 if (plota.x >= 0) {
-                    plota.x = plota.x - plota.s;
+                    plota.x = plota.x - plota.ss;
                 }
                 break;
             case 1007:
                 if (plota.x + plota.wh <= this.size().width) {
-                    plota.x = plota.x + plota.s;
+                    plota.x = plota.x + plota.ss;
                 }
                 break;
             case 115:

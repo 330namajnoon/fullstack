@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ventanas;
+package menuBasedatos;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
-import static ventanas.MenuBasedatos.con;
+import static menuBasedatos.MenuBasedatos.con;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -23,12 +23,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
-import static ventanas.MenuBasedatos.con;
-import static ventanas.MenuBasedatos.st;
+import static menuBasedatos.MenuBasedatos.con;
+import static menuBasedatos.MenuBasedatos.st;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
-import static ventanas.MenuBasedatos.con;
+import static menuBasedatos.MenuBasedatos.con;
 
 /**
  *
@@ -41,6 +41,7 @@ public class CocheBuscador extends javax.swing.JFrame {
      * Creates new form CocheBuscador
      */
     public CocheBuscador() {
+        
         initComponents();
         this.crearTable();
     }
@@ -140,8 +141,7 @@ public class CocheBuscador extends javax.swing.JFrame {
             String sql = "select * from coches where matricula "+bb[tb];
             tb++;
             try {
-            //Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/almacen", "root", "");
+            //Class.forName("com.mysql.jdbc.Driver");     
             ResultSet rs = null;
             
             st = con.createStatement();

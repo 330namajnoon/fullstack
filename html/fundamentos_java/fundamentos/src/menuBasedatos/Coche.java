@@ -15,8 +15,9 @@ public void windowIconified(WindowEvent e);
 public void windowDeiconified(WindowEvent e);
 
  */
-package ventanas;
+package menuBasedatos;
 
+import com.mysql.jdbc.exceptions.MySQLDataException;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -33,7 +34,9 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
-import static ventanas.MenuBasedatos.con;
+import static menuBasedatos.MenuBasedatos.con;
+import static menuBasedatos.MenuBasedatos.st;
+
 
 /**
  *
@@ -41,8 +44,7 @@ import static ventanas.MenuBasedatos.con;
  */
 public class Coche extends javax.swing.JFrame {
 
-    Connection con;
-    Statement st;
+   
     ArrayList<Coche1> coches;
     ArrayList<Coche1> coches2;
 
@@ -58,6 +60,7 @@ public class Coche extends javax.swing.JFrame {
      * Creates new form Coche
      */
     public Coche() {
+        System.out.println(con);
         initComponents();
         coches = new ArrayList();
         coches2 = new ArrayList();
@@ -223,7 +226,6 @@ public class Coche extends javax.swing.JFrame {
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
          try {
             //Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/almacen", "root", "");
             ResultSet rs = null;
             String sql3 = "select * from coches";
             st = con.createStatement();
@@ -294,16 +296,16 @@ public class Coche extends javax.swing.JFrame {
             System.out.println("No se puede crear el fichero");
         }
          */
+        
 
         if (coches2.size() > 0) {
             try {
-
+                
                 for (int i = 0; i < coches2.size(); i++) {
                     Coche1 c = (Coche1) coches2.get(i);
                     String sql1 = "insert into coches values ('" + c.matricula + "','" + c.marca + "','" + c.modelo + "'," + c.motor + ")";
                     Class.forName("com.mysql.jdbc.Driver");
-                    con = DriverManager.getConnection("jdbc:mysql://localhost/almacen", "root", "");
-                    System.out.println(con);
+                    con.setAutoCommit(false);
                     st = con.createStatement();
                     System.out.println("ssss");
                     int n = st.executeUpdate(sql1);
@@ -384,7 +386,7 @@ public class Coche extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Coche().setVisible(true);
+                //new Coche().setVisible(true);
             }
         });
     }

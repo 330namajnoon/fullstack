@@ -1,4 +1,4 @@
-package ventanas;
+package menuBasedatos;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -11,15 +11,18 @@ package ventanas;
  */
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.sql.Connection;
 import java.sql.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class MenuBasedatos extends Frame implements ActionListener {
-
-    static Connection con;
-    static Statement st;
+    
+    static Connection con = null;
+    static Statement st = null;
     MenuBar mbarra;
     Menu m1, m2, m3, m4;
     MenuItem m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m41, m42;
@@ -27,8 +30,8 @@ public class MenuBasedatos extends Frame implements ActionListener {
     TextArea ta;
 
     MenuBasedatos() {
-        con = null;
-        st = null;
+        
+        
         this.setTitle("pasedatos");
         this.setLayout(new BorderLayout());
         this.setSize(800, 600);
@@ -57,6 +60,7 @@ public class MenuBasedatos extends Frame implements ActionListener {
         m24 = new MenuItem("CONSULTAR TABLA");
 
         m31 = new MenuItem("BUSCADOR");
+        m31.enable(false);
 
         m41 = new MenuItem("INSETAR");
         m42 = new MenuItem("COMITAR");
@@ -132,10 +136,12 @@ public class MenuBasedatos extends Frame implements ActionListener {
                 stado.setText("Estado : " + m12.getLabel() + " : conectados a almacen");
                 m13.enable(true);
                 m21.enable(true);
+                m31.enable(true);
             } catch (SQLException sqe) {
                 System.out.println("no se puede conectar a almacen");
                 stado.setText("Estado : " + m12.getLabel() + " : no se puede conectar a almacen");
             }
+            System.out.println(con);
 
             stado.setText("Estado : " + m12.getLabel());
         }
@@ -172,19 +178,32 @@ public class MenuBasedatos extends Frame implements ActionListener {
                 st = con.createStatement();
                 rs = st.executeQuery(sql3);
                 while (rs.next()) {
-                    ta.append(rs.getString(1)+" : "+rs.getString(2)+" : "+ rs.getString(3)+" : "+ Integer.parseInt(rs.getString(4)));
+                    ta.append(rs.getString(1) + " : " + rs.getString(2) + " : " + rs.getString(3) + " : " + Integer.parseInt(rs.getString(4)));
                 }
             } catch (SQLException sqe) {
             }
             stado.setText("Estado : " + m24.getLabel());
         }
         if (e.getSource() == m31) {
+
+            new CocheBuscador().setVisible(true);
             stado.setText("Estado : " + m31.getLabel());
         }
         if (e.getSource() == m41) {
+            try {
+                con.rollback();
+                new Coche().setVisible(true);
+            } catch (SQLException sqe) {
+                
+            }
             stado.setText("Estado : " + m41.getLabel());
         }
         if (e.getSource() == m42) {
+            try {
+                con.commit();
+            } catch (SQLException sqe) {
+                
+            }
             stado.setText("Estado : " + m42.getLabel());
         }
 
