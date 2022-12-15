@@ -21,9 +21,53 @@
     </style>
 </head>
 <body>
+    <%@ page import= "java.sql.*" %>
     <a href="./map.jsp" id="a"></a>
-    <script>
-        document.getElementById("a").click();
-    </script>
+<%
+    String name = "test";
+   
+    
+    
+    
+   
+        Connection con = null;
+        Statement st = null;
+   
+    
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+           
+        } catch (Exception e) {
+           
+        }
+   
+   
+    try {
+        con = DriverManager.getConnection("jdbc:mysql://localhost/"+name+"", "root", "");
+           
+        } catch (SQLException sqe) {
+           
+        }
+
+         String sql = "CREATE TABLE `"+name+"`.`distritos` (`codigo` INT NOT NULL AUTO_INCREMENT , `nombre` VARCHAR(100) NOT NULL , PRIMARY KEY (`codigo`)) ENGINE = InnoDB;";
+        String sql1 = "CREATE TABLE `"+name+"`.`t_quejas` (`codigo` INT NOT NULL , `sexo` VARCHAR(1) NOT NULL , `tipo` VARCHAR(20) NOT NULL , `descripcion` VARCHAR(300) NOT NULL , `x` INT NOT NULL , `y` INT NOT NULL ) ENGINE = InnoDB;";
+          try {
+            st = con.createStatement();
+            
+            int n1 = st.executeUpdate(sql);
+            int n2 = st.executeUpdate(sql1);
+            %><a href="./index.html" id="a"></a>
+            <script>
+                document.getElementById("a").click();
+            </script></h1><%
+            
+         
+        } catch (SQLException sqe) {
+            
+            
+        }
+%>
+    
+   
 </body>
 </html>
